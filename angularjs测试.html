@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" id="ng-app" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>angularjs</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+		<!--angularjs-->
+		<script src="js/angular.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+  <style>
+    .divs{
+      display: block;
+    }
+  </style>
+</head>
+<body>
+	<div  ng-controller="myCtrl">
+  	<p>名字 : <input type="text" ng-model="name"></p>
+  	<h1>Hello {{name}}</h1>
+  	<div class="panel-group" id="{{li.index}}">
+	<div class="panel panel-default" ng-repeat="li in con">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#{{li.index}}" 
+				   href="#{{li.far}}">
+					{{li.far}}
+				</a>
+			</h4>
+		</div>
+		<div id="{{li.far}}" class="panel-collapse divs">
+			<div class="panel-body"ng-repeat="l in li.simdata">
+				<tr>{{l.title}}</tr>
+				
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+
+</body>
+
+
+<script>
+	var app = angular.module('myapp', []);
+// localhost:8080/zhxy/main/list
+app.controller('myCtrl', function($scope,$http) {
+	// $("div").children(".panel-collapse ").removeClass('in');
+	// $($(".panel-collapse").children("div").get(0)).addClass('in'); 
+	
+    $scope.name = "Volvo";
+   
+    
+    // $http.jsonp("http://localhost:8080/bct/main/list?jsonp=JSON_CALLBACK").success(function(data){ 
+    //     console.log(data());
+    //  });
+    // $http.get('http://localhost:8080/bct/main/list').success(function (data) {
+        
+    //     console.log(data);
+     
+    //   });
+    $scope.con = [
+    	{
+    		"far":"临床采集1",
+    		"simdata":[
+                        {
+                              "title": "关于启动重大气象灾害(高温)IV级应急响应的命令",
+                              "site": "中国天气网",
+                              "pt": "2016-08-06 14:20:21"
+                        },{
+                              "title": "关于启动重大气象灾害(高温)IV级应急响应的命令",
+                              "site": "中国天气网",
+                              "pt": "2016-08-06 14:12:09"
+                        },{
+                              "title": "安徽进入“烧烤模式”旱象露头 14条河流仍超警戒水位",
+                              "site": "中安在线",
+                              "pt": "2016-08-06 13:15:43"
+                        },{
+                              "title": "安徽高温天何时“退烧”?",
+                              "site": "光明网",
+                              "pt": "2016-08-06 13:15:43"
+                        }
+                  ]
+            },
+    	{
+    		"far":"临床采集2",
+    		"simdata":[
+                        {
+                              "title": "关于启动重大气象灾害(高温)IV级应急响应的命令",
+                              "site": "中国天气网",
+                              "pt": "2016-08-06 14:20:21"
+                        },{
+                              "title": "关于启动重大气象灾害(高温)IV级应急响应的命令",
+                              "site": "中国天气网",
+                              "pt": "2016-08-06 14:12:09"
+                        },{
+                              "title": "安徽进入“烧烤模式”旱象露头 14条河流仍超警戒水位",
+                              "site": "中安在线",
+                              "pt": "2016-08-06 13:15:43"
+                        },{
+                              "title": "安徽高温天何时“退烧”?",
+                              "site": "光明网",
+                              "pt": "2016-08-06 13:15:43"
+                        }
+                  ]
+            },
+    	{
+    		"far":"临床采集3",
+    		"simdata":[
+                        {
+                              "title": "关于启动重大气象灾害(高温)IV级应急响应的命令",
+                              "site": "中国天气网",
+                              "pt": "2016-08-06 14:20:21"
+                        },{
+                              "title": "关于启动重大气象灾害(高温)IV级应急响应的命令",
+                              "site": "中国天气网",
+                              "pt": "2016-08-06 14:12:09"
+                        },{
+                              "title": "安徽进入“烧烤模式”旱象露头 14条河流仍超警戒水位",
+                              "site": "中安在线",
+                              "pt": "2016-08-06 13:15:43"
+                        },{
+                              "title": "安徽高温天何时“退烧”?",
+                              "site": "光明网",
+                              "pt": "2016-08-06 13:15:43"
+                        }
+                  ]
+            }
+    ];
+ $(function(){
+/* $.post('localhost:8080/bct/main/list',
+      '',
+      function(data){
+        alert(data)
+    });*/
+
+$.ajax({ 
+       url:"http://localhost:8080/bct/main/list", 
+       type:'post',
+       dataType:'jsonp', // 处理Ajax跨域问题
+       jsonp: 'jsoncallback',
+       success: function(data){ 
+           alert(data); 
+         }
+    });
+
+  // console.log($(".divs").length);
+  var divs = $(".divs");
+  for(var i=0,le=divs.length;i<le;i++){
+    divs[i].className = "panel-collapse collapse";
+  }
+    divs[0].className = "panel-collapse collapse in";
+ })
+});
+</script>
+</html>
