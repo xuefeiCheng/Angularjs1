@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>自定义过滤器</title>
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+		<script src="js/angular.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<style type="text/css">
+			form {
+				margin: 200px;
+			}
+		</style>
+	</head>
+
+	<body ng-app="myapp">
+		<form class="form-horizontal" role="form" ng-controller="filterCtrl">
+			<blockquote>
+				xuefeiCheng
+				<small>Someone famous in <cite title="programmer">programmer</cite></small>
+			</blockquote>
+			<div class="form-group has-error">
+				<label class="col-sm-4 control-label">
+					自定义filter 将tank转换为 ====
+				</label>
+				<div class="col-sm-8">
+					<label class="control-label">
+						测试数据为"TANK is GOOD"    结果为：{{ "TANK is GOOD" | lowercase |tankreplace}}
+					</label>
+				</div>
+			</div>
+			
+		</form>
+		<script type="text/javascript">
+			//模块依赖 配置
+			var app = angular.module('myapp', ['tanktest']);
+			angular.module('tanktest', []).filter('tankreplace', function() {
+				return function(input) {
+					return input.replace(/tank/, "=====")
+				};
+			});
+		</script>
+	</body>
+
+</html>
