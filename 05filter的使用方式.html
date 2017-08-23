@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="UTF-8">
+		<title>过滤器的两种使用方法</title>
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css"/>
+		<script src="js/angular.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<style type="text/css">
+			div{
+				margin: 100px;
+			}
+		</style>
+	</head>
+	<body ng-controller="myCtrl">
+		<div>
+		<p>过滤器的两种使用方式，一种是直接在模板中使用；一种是在controller和services中使用</p>
+		<p>在模板中使用，直接调用即可，语句格式为：{{ expression | filter }}</p>
+		<p>可以同时使用多个过滤器，如同'管道'，上一个filter 的输出是下一个filter的输入</p>
+		<p>同时filter可以接收参数，参数用于分割，格式：{{ expression | filter:argument1:argument2:... }}</p>
+		<p>例如：{{ filterData | filter:{'name':"joy"} }} {{ filterData | limitTo:1 }}</p>
+		<p>除了对{{}}中的数据进行格式化，我们还可以在指令中使用filter，例如先对数组array进行过滤处理，然后再循环输出：
+			span ng-repeat="a in array | filter "/span </p>
+			<p>在controller和service中使用filter</p>
+　　<p>我们的js代码中也可以使用过滤器，方式就是我们熟悉的依赖注入，例如我要在controller中使用currency过滤器，只需将它注入到该controller中即可，代码如下：
+
+<p>app.controller('testC',function($scope,currencyFilter){
+  $scope.num = currencyFilter(123534); 
+}
+</p>
+<p>
+　　在模板中使用{{num}}就可以直接输出$123,534.00了！在服务中使用filter也是同样的道理。
+　　此时你可能会有疑惑，如果我要在controller中使用多个filter，难道要一个一个注入吗，这岂不太费劲了？小兄弟莫着急~ng提供了一个$filter服务可以来调用所需的filter，你只需注入一个$filter就够了，使用方法如下：
+</p>
+<p>
+app.controller('testC',function($scope,$filter){
+  $scope.num = $filter('currency')(123534);
+　　$scope.date = $filter('date')(new Date()); 
+}
+</p>
+　　可以达到同样的效果。好处是你可以方便使用不同的filter了。
+			</p>
+			</div>
+	</body>
+	<script>
+		var app = angular.module('myapp',[]);
+		app.controller('myCtrl',function($scope){
+			
+		});
+	</script>
+</html>
