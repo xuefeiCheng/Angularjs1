@@ -145,7 +145,25 @@ $.ajax({
            alert(data); 
          }
     });
+//http请求 解决跨域问题
+/*$http({
+                method: 'JSONP',
+                url: 'http://www.b.com/test.php?callback=JSON_CALLBACK',
+            }).success(function (msg) {
+                console.log(data);
+            });
+            //或者
+            $http
+                .jsonp('http://www.b.com/test.php?callback=JSON_CALLBACK')
+                .success(function (msg){
+                    console.log(msg);
+                }); */
+// 此时还会出现 另一个错误 就是毁掉函数的数据 不是标准的json格式 是需要自己再次解析一遍的
+//php写法
+//$callBack = isset($_GET['callback']) ? $_GET['callback'] : DEFAULT_CALLBACK;
+//exit($callBack.'('.json_encode($data).')');
 
+//参考文档 http://www.cnblogs.com/ChenChunChang/p/6695411.html
   // console.log($(".divs").length);
   var divs = $(".divs");
   for(var i=0,le=divs.length;i<le;i++){
