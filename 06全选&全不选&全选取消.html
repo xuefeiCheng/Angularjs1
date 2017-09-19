@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>全选</title>
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+		<script src="js/angular.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<style type="text/css">
+			div {
+				margin: 100px;
+			}
+		</style>
+	</head>
+
+	<body ng-controller="myCtrl">
+		<div>
+			<p>
+				<ol>
+					<li>全选</li>
+					<li>全不选</li>
+					<li>子选框全选/全不选，父选框联动</li>
+				</ol>
+			</p>
+			<table class="result-tab" width="100%">
+				<thead>
+					<tr>
+						<th class="tc" width="5%"><input type="checkbox" value="" id="AllParent" ng-click="cheall()" /></th>
+						<th>发布人</th>
+					</tr>
+				</thead>
+				<tbody id="checkson">
+					<tr ng-repeat="art in org">
+						<td class="tc">
+							<input type="checkbox" value="{{art.age}}" name="category_check" ng-click="haha()" />
+						</td>
+						<td>
+							<a href="javascript:void(0)" title="{{art.name}}">{{art.name}}</a> …
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+	<script>
+		var app = angular.module('myapp', []);
+		app.controller('myCtrl', function($scope) {
+			$scope.org = [{
+				'name': 'xuefeiCheng',
+				'age': 18,
+				'sex': '女',
+				'msg': "生活简单就好"
+			}, {
+				'name': 'xuefeiCheng',
+				'age': 18,
+				'sex': '女',
+				'msg': "生活简单就好"
+			}, {
+				'name': 'xuefeiCheng',
+				'age': 18,
+				'sex': '女',
+				'msg': "生活简单就好"
+			}];
+			
+			//全选 反选
+		$("#AllParent").click(function(){
+			 getStateCheck();
+		  });
+//		子选框 全选变no选 --》》》  父选框 unchecked
+//		子选框 全选 --》》》  父选框 checked
+		$scope.haha= function(){
+			var le = $("#checkson input").length;
+			var nowle = 0;
+			$(":checkbox[name='category_check']").each(function(){
+				this.checked==false?$("#AllParent").prop("checked",false):nowle++;
+				nowle == le ? $("#AllParent").prop("checked",true):$("#AllParent").prop("checked",false)
+			});
+			console.log(nowle);
+		}
+
+		
+		/*函数 checkbox  */
+		function getStateCheck(){
+			//从反选 到全选
+			if($("#AllParent").is(":checked")){
+				//alert("jaja");
+				 console.log($("#checkson input").length);
+				$("#checkson input").prop("checked",true);  //全选    
+			}else{
+				$("#checkson input").prop("checked",false); 
+			}
+			
+		}
+		});
+	</script>
+
+</html>
