@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html data-ng-app="App">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>AngularJS判断checkbox/复选框是否选中并实时显示</title>
+		<script src="js/angular.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/script2.js"></script>
+		<style>
+			div.box {
+				width: 80%;
+				margin: 50px auto;
+			}
+			
+			p {
+				border-bottom: 1px solid #002A80;
+			}
+		</style>
+	</head>
+
+	<body data-ng-controller="AddStyleCtrl">
+		<div class="box">
+			<div>Choose Tags</div>
+			<div>
+				<div>You have choosen:</div>
+				<p>
+					<label data-ng-repeat="selectedTag in selectedTags">(({{selectedTag}}))</label>
+				</p>
+				<div data-ng-repeat="category in tagcategories">
+					<div>{{ category.name }}</div>
+					<p>
+						<div data-ng-repeat="tag in category.tags">
+							<div>
+								<input type="checkbox" id={{tag.id}} name="{{tag.name}}" ng-checked="isSelected(tag.id)" ng-click="updateSelection($event,tag.id)"> {{ tag.name }}
+							</div>
+						</div>
+					</p>
+				</div>
+			</div>
+			<pre>{{selected|json}}</pre> <pre>{{selectedTags|json}}</pre>
+		</div>
+
+	</body>
+
+</html>
