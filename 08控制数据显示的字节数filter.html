@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html data-ng-app="App">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>限制显示</title>
+		<style>
+			div.box {
+				width: 80%;
+				margin: 50px auto;
+			}
+		</style>
+		<script src="js/angular.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+	</head>
+
+	<body ng-controller="myCtrl">
+		<div class="box">
+			<span>字符控制显示</span>
+			<p>{{data | cut:true:11:' ...'}}</p>
+			<p>{{data | limitTo:50 }}...</p>
+			<!--直接使用 css 样式控制-->
+			<div style="height: 21px;width:350px;background-color: #ccc;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{data}}</div>
+		</div>
+		<script type="text/javascript">
+			var app = angular.module("App", []);
+			angular.module('ng').filter('cut', function() {
+				//参数:
+
+//切字方式 (布林) - 如果是 true，只切单字。
+//长度（整数） - 要保留的最大字数。
+//后缀(字串，默认：'…') - 接在字词的后面。
+				return function(value, wordwise, max, tail) {
+					if(!value) return '';
+
+					max = parseInt(max, 10);
+					if(!max) return value;
+					if(value.length <= max) return value;
+
+					value = value.substr(0, max);
+					if(wordwise) {
+						var lastspace = value.lastIndexOf(' ');
+						if(lastspace != -1) {
+							value = value.substr(0, lastspace);
+						}
+					}
+
+					return value + (tail || ' …');
+				};
+			});
+			app.controller('myCtrl', function($scope) {
+				//数据
+				$scope.data = "胃痛，胃胀，隐痛，绞痛，灼痛，腹胀，腹痛，痞满，满闷，食后，空腹，食凉，寒凉，夜间，情绪，气窜，左胁痛，右胁胀，右胁痛，双胁胀，双胁痛，右脐部痛，小腹痛，左少腹疼，脐下腹痛，右胸部痛，左腋下隐痛，脐周痛，右胁下烧灼，拒按，痛则欲泻，胃振水声，嘈杂，痞满，恶心，呕吐，烧心，离心，泛酸，吞酸，嗳气，善太息，口渴，口粘，口干，唇干，口苦，厌油，口中异味，口甜，口热，口腻，口臭，口疮，口淡，口水，纳呆，纳差，纳可，乏力，喜温，喜按，易急，胃冷，腹冷，怕寒凉，畏寒，肠鸣，矢气，心悸，心烦，易怒，气短，胸痛，胸闷，憋气，胸部酸，白痰，多汗，肌肉痛，头痛，头晕，头胀，头昏，头沉，脑鸣，项僵，背酸，背胀，背痛，背拘紧，腰酸，腰痛，膝软，目干，目涩，目胀，目热，不饥，咽部物阻，咽痛，咽痒，咽中有痰，咽灼热，咽干，咽红，牙痛，耳聋，耳鸣，肢沉，胸骨后闷热，胸骨后辛辣感，背热，低热，咳嗽，上半身汗出，面色晄白，面色萎黄";
+
+			});
+		</script>
+	</body>
+
+</html>
