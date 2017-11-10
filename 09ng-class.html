@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="UTF-8">
+		<title>ng-class</title>
+		<script type="text/javascript" src="js/angular.min.js" ></script>
+		<style>
+			.girl{
+				color:#C39192;
+			}
+			.boy{
+				color:#017EBC;
+			}
+			.special{
+				color:#F0AD4E;
+			}
+			.normol{
+				color:#009E94;
+			}
+		</style>
+	</head>
+	<body ng-controller="myCtrl">
+		<ul>
+			<li>item 1</li>
+			<li>item 2</li>
+			<li>item 3</li>
+		</ul>
+		<ul>
+			<li ng-repeat = 'i in items' ng-class="{'girl':i.sex=='girl','boy':i.sex=='boy'}">{{i.name}}</li>
+		</ul>
+		<ul>
+			<li ng-repeat = 'i in items' ng-class="{'girl':i.sex=='girl'&&i.age>=10,'boy':i.sex=='boy'&&i.age>=10}">{{i.name}}</li>
+		</ul>
+		<ul>
+			<li ng-repeat = 'i in items' ng-class="i.name=='ming'||i.age<10 ? 'special' : 'normol'">{{i.name}}</li>
+		</ul>
+		
+		<script>
+			var app = angular.module("myApp", []);
+			app.controller('myCtrl',['$scope',function($scope){
+				$scope.items = [
+				{'id':'1','age':'10','name':'wang','sex':'girl'}
+				,{'id':'2','age':'16','name':'mei','sex':'girl'}
+				,{'id':'3','age':'9','name':'joy','sex':'boy'}
+				,{'id':'4','age':'13','name':'ming','sex':'boy'}
+				];
+			}]);
+			var x = 3+1 == 4 ? true : false;
+			alert(x+'--三元表达式，符合条件，返回结果1，否则返回结果2');
+		</script>
+	</body>
+</html>
