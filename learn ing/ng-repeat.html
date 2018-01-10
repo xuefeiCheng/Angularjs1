@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>ng-repeat</title>
+		<script src="../js/angular.min.js"></script>
+	</head>
+
+	<body ng-app='myapp' ng-controller='ctrl'>
+		<h2>ng-repeat指令用于循环输出指定次数的html元素。集合必须是数组或对象。</h2>
+		<ul>
+			<li ng-repeat='x in records'>{{x}}</li>
+		</ul>
+		<h4>ng-repeat指令不允许id值相同，会报错。为了规避这个错误，需要定义自己的track by表达式。</h4>
+		<p>
+			// 业务上自己生成唯一的id <br /> 1. item in items track by item.id <br /> //或者直接拿循环的索引变量$index来用 <br /> 2. item in items track by $index <br /> 另外：如果集合是Javascript对象类型数据，那么就算值一模一样，ng-repeat也不会认为这是相同的对象
+		</p>
+		<ul>
+			<li ng-repeat='x in records track by $index'>{{x}}</li>
+		</ul>
+		<table border="1" cellspacing="" cellpadding="">
+			<tr>
+				<th>name</th>
+				<th>country</th>
+			</tr>
+			<tr ng-repeat='y in records1'>
+				<td>{{y.Name}}</td>
+				<td>{{y.Country}}</td>
+			</tr>
+		</table>
+		<table border="1" cellspacing="" cellpadding="">
+			<tr ng-repeat='(key,value) in myObj'>
+				<th>{{key}}</th>
+				<td>{{value}}</td>
+			</tr>
+		</table>
+	</body>
+	<script>
+		var app = angular.module("myapp", []);
+		app.controller("ctrl", function($scope) {
+			//数组
+			$scope.records = [
+				"菜鸟教程1",
+				"菜鸟教程2",
+				"菜鸟教程3",
+				"菜鸟教程4",
+			]
+			//数组对象
+			$scope.records1 = [{
+				"Name": "Alfreds Futterkiste",
+				"Country": "Germany"
+			}, {
+				"Name": "Berglunds snabbköp",
+				"Country": "Sweden"
+			}, {
+				"Name": "Centro comercial Moctezuma",
+				"Country": "Mexico"
+			}, {
+				"Name": "Ernst Handel",
+				"Country": "Austria"
+			}]
+			//对象
+			$scope.myObj = {
+				"Name": "Alfreds Futterkiste",
+				"Country": "Germany",
+				"City": "Berlin"
+			}
+		});
+	</script>
+
+</html>

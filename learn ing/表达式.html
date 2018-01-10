@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>expression</title>
+		<script type="text/javascript" src="../js/angular.min.js" ></script>
+	</head>
+	<body ng-app>
+		<p>
+			AngularJS 表达式 与 JavaScript 表达式 <br />
+			类似于 JavaScript 表达式，AngularJS 表达式可以包含字母，操作符，变量
+			<ul>
+				<li>与 JavaScript 表达式不同，AngularJS 表达式可以写在 HTML 中。</li>
+				<li>与 JavaScript 表达式不同，AngularJS 表达式不支持条件判断，循环及异常。</li>
+				<li>与 JavaScript 表达式不同，AngularJS 表达式支持过滤器。</li>
+			</ul>
+		</p>
+		<p>第一个表达式：{{2018 - 1995}}</p>
+		<!--数字-->
+		<div ng-init='quantity=1;cost=2'>
+			<p>总价格：{{quantity*cost}}</p>
+			<p>或者使用ng-bind指令：<span ng-bind='quantity*cost'></span></p>
+		</div>
+		<!--字符串-->
+		<div ng-init='firstName="xuefei";lastName="Cheng"'>
+			<p>姓名为：{{firstName +" "+ lastName}}</p>
+			<p>或者使用ng-bind指令：<span ng-bind='firstName +" "+ lastName'></span></p>
+		</div>
+		<!--对象-->
+		<div ng-init="person={'name':'xuefeiCheng','sex':'女'}">
+			<p>姓名：{{person.name}}</p>
+			<p>性别：{{person.sex}}</p>
+			<p>或使用ng-bind指令：姓名：<span ng-bind="person.name"> </span>性别：<span ng-bind="person.sex"></span></p>
+		</div>
+		<!--数组-->
+		<div ng-init='points=[1,2,3,4,5,6,7,8]'>
+			<p>第三个值为：{{points[2]}}</p>
+			<p>或使用ng-bind指令：<span ng-bind='points[2]'></span></p>
+		</div>
+	</body>
+	<script>
+		
+	</script>
+</html>
