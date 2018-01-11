@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>指令demo第一弹</title>
+		<!--<script src="../js/angular.min.js"></script>--><!--版本1.2.2  ng-transclude输出结果不正确-->
+		<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+		<style>
+			div.box {
+				width: 80%;
+				margin: 50px auto;
+				background-color: rgb(246, 246, 246);
+				padding: 15px;
+			}
+			img{width: 100%;}
+		</style>
+	</head>
+
+	<body ng-app='myapp'>
+		<div class="box">
+			<p>replace</p>
+			<hello>我是原本的内容。</hello>
+			<p>transclude</p>
+			<!-- 指令one-transclude 内部含有元素-->
+			<one-transclude>
+				<div>$AAAAAA $我是指令[one-transclude]元素内部的内容</div>
+			</one-transclude>
+			<p>transclude原理图</p>
+			<div style='width: 90%;'>
+				<img src="../imgs/ng-transclude.jpg"/><br />
+				<img src="../imgs/ng-transclude1.jpg" />
+			</div>
+		</div>
+		<script>
+			var app = angular.module('myapp', []);
+			app.directive('hello', [function() {
+				var option = {
+					restrict: "AECM",
+					template: "<h3>Hello, Directive</h3>",
+					replace: true //这里replace为true，所以原来的内容会被template代替 
+				};
+				return option;
+			}]).directive('oneTransclude', [oneTransclude]); 
+			function oneTransclude() { 
+				return { 
+					restrict: 'AECM',
+					transclude: true,/*可选项 flase true {...}*/
+					template: '<div>$BBBBBB$ 我是指令[one-transclude]模板的内容</div><hr/><ng-transclude>$CCCCCC$ 我是指令[one-transclude]模板中[ng-transclude]中的内容</ng-transclude>' 
+				};
+			}
+		</script>
+	</body>
+
+</html>
