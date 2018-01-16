@@ -11,16 +11,26 @@
 		<p>demo:</p>
 		<p>界面绑定的msg：<span ng-init='msg="hello"' ng-bind="msg"></span></p>
 		<p>自定义指令dir：<dir></dir></p>
+		<p>但是当需要创建一个重复使用的directive的时候，就不能依赖父scope了，因为在不同地方使用directive对应的父scope不同。</p>
+		<p>一个隔离的scope，demo：</p>
+		<dir2></dir2>
 		<script>
 			var app = angular.module('app',[]);
 			//自定义指令
-			app.directive('dir',function(){
+			app.directive('dir',[function(){
 				return{
 					restrict:'E',
 					template:'<span>say:{{msg}}</span>',
 					//replace:true
 				}
-			});
+			}]).directive('dir2',[function(){
+				return{
+					restrict:'E',
+					scope:{},
+					template:'<span>say:{{msg}}</span>'
+					//replace:true
+				}
+			}]);
 		</script>
 	</body>
 </html>
