@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>指令属性scope</title>
+		<script src="../js/angular.min.js"></script>
+	</head>
+	<body ng-app='app'>
+		<p>directive默认能够共享父scope中定义的属性，例如在末班中直接使用父scope中的对象和属性。</p>
+		<p>通常使用这种直接的共享方式可以实现一些简单的directive功能。</p>
+		<p>demo:</p>
+		<p>界面绑定的msg：<span ng-init='msg="hello"' ng-bind="msg"></span></p>
+		<p>自定义指令dir：<dir></dir></p>
+		<script>
+			var app = angular.module('app',[]);
+			//自定义指令
+			app.directive('dir',function(){
+				return{
+					restrict:'E',
+					template:'<span>say:{{msg}}</span>',
+					//replace:true
+				}
+			});
+		</script>
+	</body>
+</html>
