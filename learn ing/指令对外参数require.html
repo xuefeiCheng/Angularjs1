@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>指令间的桥梁require</title>
+		<script src="../js/angular.min.js"></script>
+		<style>
+			div.box {
+				width: 80%;
+				margin: 50px auto;
+				background-color: rgb(246, 246, 246);
+				padding: 15px;
+			}
+		</style>
+	</head>
+
+	<body ng-app='app'>
+		<div class="box">
+			<div teacher>
+				{{name}}
+				<student-a></student-a>
+				<student-b></student-b>
+			</div>
+		</div>
+		<p>说明：<br />
+			？策略——寻找指令名称，如果没有找到，link函数第4个参数为null；如果没有？，则报错。<br />
+			^ 策略——在自身指令寻找指令名称的同时，向上父元素寻找；如果没有^，则仅在自身寻找。<br />
+			如上例子，指令studentA向上可以找到指令teacher及自身，但是不能找到相邻兄弟的student-b。
+		</p>
+		<script>
+			var app = angular.module('app', []);
+			//studentA——require指向父级指令teacher
+			app.directive('studentA', function() {
+				return {
+					restrict: 'E',
+					require: '?^teacher',
+					scope: {},
+					template: '<div>A`s teacher name: <span>{{teacherName}}</span></div>',
+					link: function($scope, $element, $attrs, ctrl) {
+						//获取teacher指令控制器，并调用其方法sayName()
+						console.log(ctrl)
+						$scope.teacherName = ctrl.sayName();
+					}
+				};
+			});
+
+			//studentB——require指向父级指令teacher，及指令studentA
+			//但是，由于不能获得兄弟，也没有采取？策略，导致报错
+			app.directive('studentB', function() {
+				return {
+					restrict: 'E',
+					require: ['?^teacher', '?studentA'],
+					scope: {},
+					template: '<div>B`s teacher name: <span>{{teacherName}}</span></div>',
+					link: function($scope, $element, $attrs, ctrl) {
+						$scope.teacherName = ctrl[0].sayName();
+					}
+				};
+			});
+
+			app.directive('teacher', function() {
+				return {
+					restrict: 'A',
+					controller: function($scope) {
+						$scope.name = "Miss wang";
+
+						//扩展控制器的方法sayName，目的是让外部内获取控制器内部数据
+						this.sayName = function() {
+							return $scope.name;
+						};
+					}
+				};
+			});
+		</script>
+	</body>
+
+</html>
