@@ -13,7 +13,7 @@
 			}
 		</style>
 	</head>
-	<body ng-app='app'>
+	<body ng-app='app' ng-controller="ctrl">
 		<div class="box">
 			<p>directive默认能够共享父scope中定义的属性，例如在末班中直接使用父scope中的对象和属性。</p>
 			<p>通常使用这种直接的共享方式可以实现一些简单的directive功能。</p>
@@ -39,10 +39,21 @@
 				注意：此时的传递方式不再是msg={{msg}},而是msg=msg。
 			</p>
 			<dir= msg='msg'></dir=>
+			<p>父scope中的click事件：<button ng-click="click()">父scope点击事件</button></p>
+			<p>& 局部scope属性：提供一种方式，使得隔离scop内部可以使用父scope中的方法，即能在父scope的上下文中执行一个表达式。<br />
+				比如当你写了一个 directive，当用户点击按钮时，directive 想要通知 controller，controller 无法知道 directive 中发生了什么，也许你可以通过使用 angular 中的 event 广播来做到，但是必须要在 controller 中增加一个事件监听方法。<br />
+				最好的方法就是让 directive 可以通过一个父 scope 中的 function，当 directive 中有什么动作需要更新到父 scope 中的时候，可以在父 scope 上下文中执行一段代码或者一个函数。
+			</p>
+			<dir& action="click()"></dir&>
 		</div>
 		
 		<script>
 			var app = angular.module('app',[]);
+			app.controller('ctrl',function($scope){
+				$scope.click=function(){
+					alert("我是父scope中的click事件")
+				}
+			});
 			//自定义指令
 			app.directive('dir',[function(){
 				return{
@@ -75,6 +86,14 @@
 						msg:"="
 					},
 					template:'父scope-->say:{{msg}},改变隔离scope的msg值，父scope值也变<input ng-model="msg" />'
+				}
+			}).directive('dir&',function(){
+				return{
+					restrict:'E',
+					scope:{
+						action:"&"
+					},
+					template:'<button ng-click="action()">隔离scope中的点击事件</button>'
 				}
 			});
 		</script>
