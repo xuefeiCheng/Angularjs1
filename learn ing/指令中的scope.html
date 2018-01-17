@@ -22,8 +22,9 @@
 			<li>= 通过directive的attr属性的值在局部scope的属性和父scope属性名之间建立双向绑定。</li>
 		</ul>
 		<p>demos:</p>
-		<p>@ 局部scope属性:</p>
-		<dir@></dir@>
+		<p>@ 局部scope属性:这种绑定是单向的。下面的栗子是，自定义指令的name属性绑定父scope的属性。当父scope的属性值更改时，指令的name属性相应改变。但是指令的scope的属性值更改时，父scope无变化。</p>
+		<p>更改父scope：<input type="text" ng-model='msg'/></p>
+		<dir@ name='{{msg}}'></dir@>
 		<script>
 			var app = angular.module('app',[]);
 			//自定义指令
