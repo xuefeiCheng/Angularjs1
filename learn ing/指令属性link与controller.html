@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app='app'>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>行为参数link与controller</title>
+		<script src="../js/angular.min.js"></script>
+		<style>
+			div.box {
+				width: 80%;
+				margin: 50px auto;
+				background-color: rgb(246, 246, 246);
+				padding: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="box">
+			<p>说明，controller与link语法规则相同，string or function；controller先执行，link后执行</p>
+			<p>
+				放到全局顺序就是：
+				<ol>
+					<li>执行controller，设置各个作用域scope</li>
+					<li>加载模板，形成DOM模板树</li>
+					<li>执行link，设置DOM各个行为</li>
+					<li>数据绑定，最后scope绑上DOM</li>
+				</ol>
+			</p>
+			<test></test>
+		</div>
+
+		<script>
+			var app = angular.module('app', []);
+			//指令
+			app.directive('test', function() {
+				return {
+					restrict: 'E',
+					template: "<p>hello</p>"
+				}
+			});
+		</script>
+	</body>
+
+</html>
