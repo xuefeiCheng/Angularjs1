@@ -18,6 +18,27 @@
 	<body>
 		<div class="box">
 			<p>说明，controller与link语法规则相同，string or function；controller先执行，link后执行</p>
+			<p>link与controller都是描述指令行为的参数，controller是描述的指令的作用域的行为；link是描述指令元素操作的行为，看下面的栗子</p>
+			<p>加载顺序为：先加载模板，形成dom树，之后加载link参数，最后数据绑定；所以link是在形成模板树之后在数据绑定之前，从最底部指令开始，逐个执行他们的link函数</p>
+			<stu1 ></stu1>
+			<p>在这个时间节点的link函数，操作dom的性能开销最低，适合在这个时机执行dom操作。例如鼠标操作或触控事件分发、样式设置、增删改元素等</p>
+			<pre class="hljs javascript"><code>link: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">scope, element, attr, ctrl</span>) </span>{
+
+    element.bind(<span class="hljs-string">"click"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"绑定点击事件"</span>);
+    });
+
+    element.append(<span class="hljs-string">"&lt;p&gt;增加段落块&lt;/p&gt;"</span>);
+
+    <span class="hljs-comment">//设置样式</span>
+    element.css(<span class="hljs-string">"background-color"</span>, <span class="hljs-string">"yellow"</span>);
+
+    <span class="hljs-comment">//不推荐，在link中赋予scope行为</span>
+    scope.hello = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"hello"</span>);
+    };
+}
+</code></pre>
 			<p>
 				放到全局顺序就是：
 				<ol>
@@ -27,18 +48,60 @@
 					<li>数据绑定，最后scope绑上DOM</li>
 				</ol>
 			</p>
-			<test></test>
+			<p>栗子如下：打断点看控制台</p>
+			<div student>
+        {{name }}
+    </div>
 		</div>
 
 		<script>
 			var app = angular.module('app', []);
 			//指令
-			app.directive('test', function() {
-				return {
-					restrict: 'E',
-					template: "<p>hello</p>"
-				}
-			});
+			 app.directive( 'stu1' , function () {
+            return {
+                restrict: 'E' ,
+                template: "<p>1</p><stu2></stu2>" ,
+                link: function (scope) {
+                    console.log( 'stu1 running' );
+                }
+            };
+        });
+
+        app.directive( 'stu2' , function () {
+            return {
+                restrict: 'E' ,
+                template: "<p>2</p><stu3></stu3>" ,
+                link: function (scope) {
+                    console.log( 'stu2 running' );
+                }
+            };
+        });
+
+        app.directive( 'stu3' , function () {
+            return {
+                restrict: 'E' ,
+                template: "<p>3</p>" ,
+                link: function (scope) {
+                    console.log( 'stu3 running' );
+                }
+            };
+        });
+         app.directive('student', function () {
+            return {
+                restrict: 'A',
+                controller: function ($scope) {
+                    $scope.name = "tgor";
+
+                    console.log('controller running');
+                },
+                link: function (scope, el) {
+                    el.append("<p>hello</p>");
+
+                    console.log('link running');
+                }
+            };
+        });
+
 		</script>
 	</body>
 
