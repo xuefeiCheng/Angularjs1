@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>ng-model指令</title>
+		<style>
+			div.box {
+				width: 80%;
+				margin: 50px auto;
+				background-color: rgb(246, 246, 246);
+				padding: 15px;
+			}
+			
+			input.ng-invalid {
+				background-color: lightblue;
+			}
+			
+			input.ng-dirty {
+				background-color: #ccc;
+			}
+		</style>
+		<!--<script src="../js/angular.min.js"></script>-->
+		<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+	</head>
+
+	<body ng-app='app'>
+		<div class="box" ng-controller='ctrl'>
+			<p>1.ng-model指令：可以将输入域的值与angularjs创建的变量绑定，栗子：</p>
+			<p>name：<input type="text" ng-model='name' /></p>
+			<p>2.双向绑定：在修改输入域值的同时，angularjs属性值也被修改：</p>
+			<p>你输入的名字是：{{name}}</p>
+			<p>3.验证用户输入：</p>
+			<form name='Form'>
+				email: <input type="email" name='address' ng-model='emailtext' />
+				<span ng-show='Form.address.$error.email'>邮箱输入不合法</span>
+			</form>
+			<p>4.应用状态</p>
+			<form name='form1' ng-init='myemail = "1805711033@qq.com"'>
+				email：
+				<!--required h5 中定义必填项-->
+				<input type="email" ng-model='myemail' required="required" name='test' />
+				<h3>状态：</h3> 合法：{{form1.test.$valid}} 不合法：{{form1.test.$invalid}} 修改：{{form1.test.$dirty}} 未修改：{{form1.test.$pristine}} 是否和控件进行过交互：{{form1.test.$touched}}
+				<!--1.3版本后才有-->
+			</form>
+			<p>5.css类 ng-model基于状态为html提供了css类</p>
+			<form name="myForm" ng-init='myText =""'>
+				输入你的名字:
+				<input name="myName" ng-model="myText" required dirty>
+			</form>
+			<p>编辑文本域，不同状态背景颜色会发送变化。</p>
+			<p>文本域添加了 required 属性，该值是必须的，如果为空则是不合法的。</p>
+			<p>文本域添加了dirty属性，该值更改则展示位#ccc颜色。</p>
+			<p>ng-model 指令根据表单域的状态添加/移除以下类：</p>
+			<ul>
+				<li>ng-empty</li>
+				<li>ng-not-empty</li>
+				<!--控件失去焦点-->
+				<li>ng-touched</li>  
+				<li>ng-untouched</li>
+				<li>ng-valid</li>
+				<li>ng-invalid</li>
+				<li>ng-dirty</li>
+				<li>ng-pending</li>
+				<li>ng-pristine</li>
+			</ul>
+		</div>
+		<script>
+			var app = angular.module('app', []);
+			app.controller('ctrl', function($scope) {
+				$scope.name = 'xuefeiCheng';
+			});
+		</script>
+	</body>
+
+</html>
