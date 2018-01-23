@@ -39,11 +39,13 @@
 			<!--必须存在 ng-model 设置初始值 否则为空-->
 			请选择：<select ng-model='selected' ng-init='selected = names[1]' ng-options='x for x in names'></select>
 			<p>2.ng-options选择的是对象，ng-repeat选择的是字符串</p>
-			<select ng-model='sel1' ng-options='n.name for n in lits'></select>
-			<select ng-model='sel2'>
-				<option ng-repeat='x in lits' value="{{x.id}}">{{x.name}}</option>
+			<select ng-model='sel' ng-init='sel = 1' ng-options='n.id as n.name for n in lits'></select>
+			<select ng-model='sel1' ng-init= 'sel1 = lits[0]' ng-options='n.name for n in lits'></select>
+			<select ng-model='sel2' ng-init='sel2 = "1"'>
+				<option ng-repeat='x in lits'  value="{{x.id}}">{{x.name}}</option>
 			</select>
-			<p>ng-options选择的是：{{sel1}} <br />
+			<p>ng-options自定义value(注意在控制台看不出，直接打印出)：{{sel}} <br />
+				ng-options选择的是：{{sel1}} <br />
 				ng-repeat选择的是:{{sel2}}
 			</p>
 		</div>
