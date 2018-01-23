@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>service</title>
+		<style>
+			div.box {
+				width: 80%;
+				margin: 50px auto;
+				background-color: rgb(246, 246, 246);
+				padding: 15px;
+			}
+		</style>
+		<script src="../js/angular.min.js"></script>
+	</head>
+	<body ng-app='app'>
+		<div class="box" ng-controller='serviceStr'>
+			<p>1.$location服务</p>
+			<p>当前界面的url是:{{url}}</p>
+			<p>使用$location服务相当于是window.location；相比较而言：前者能够一直响应angularjs应用的持续监控<br />
+			能够和应用的上下文相关联，使用$location.path()是相对路径</p>
+			<p>2.$http服务：请求服务器数据</p>
+			<p>3.$timeout服务：对应window.setTimeout函数，栗子（2s后显示）</p>
+			<p style='color: #0055FF;'>{{timeoutmsg}}</p>
+			<p>4.$interval（定时器）服务：对应window.setInterval函数，栗子（每一秒+1)</p>
+			<p style='color: #002A80;'>{{value}}</p>
+			<p>5.创建自定义服务</p>
+			<p>{{user.name}} say {{sayha}}</p>
+			<p>6.过滤器中的自定义服务</p>
+			<ul>
+				<li ng-repeat='x in datas'>{{x}}{{x | myfilter}}</li>
+			</ul>
+			<p>7.其他服务 $apply  $watch等</p>
+		</div>
+		<script>
+			var vm = angular.module('app',[]);
+			vm.service('hello',function(){
+				this.user={
+					'name':'xuefeiCheng',
+					'sex':'girl',
+					'age':'22'
+				};
+				this.sayhello = function(msg){
+					return msg;
+				}
+			}).service('hexafy',function(){
+				this.fun = function(x){
+					return x.toString(16);
+				}
+			});
+			vm.filter('myfilter',function(hexafy){
+				return function(x){
+					return '转换为16进制为：'+hexafy.fun(x);
+				}
+			});
+			//注意 $location服务在controller中使用需要传递一个参数给定controller
+			vm.controller('serviceStr',function($scope,$location,$timeout,$interval,hello){
+				$scope.url = $location.absUrl();
+				$scope.user = hello.user;
+				$scope.sayha = hello.sayhello('heihei');
+				$scope.datas=[255,200,202];
+				$timeout(function(){
+					$scope.timeoutmsg = '我是2s后显示的哦'
+				},2000);
+				$scope.value = 0;
+				$interval(function(){
+					$scope.value++;
+				},1000);
+			});
+		</script>
+	</body>
+</html>
