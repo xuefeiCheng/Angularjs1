@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>select</title>
+		<style>
+			div.box {
+				width: 80%;
+				margin: 50px auto;
+				background-color: rgb(246, 246, 246);
+				padding: 15px;
+			}
+		</style>
+		<script src="../js/angular.min.js"></script>
+	</head>
+	<body ng-app='app'>
+		<div class="box" ng-controller='ctrl'>
+			<p>ng-options用法</p>
+			<h2>对于数组：</h2>
+			<ul>
+				<li><span>&nbsp;<span>label<span>&nbsp;<span><strong>for</strong><span>&nbsp;<span>value<span>&nbsp;<span><strong>in</strong><span>&nbsp;<span>array</span></span></span></span></span></span></span></span></span></span></li>
+				<li><span>&nbsp;<span>select<span>&nbsp;<span><strong>as</strong><span>&nbsp;<span>label<span>&nbsp;<span><strong>for</strong><span>&nbsp;<span>value<span>&nbsp;<span><strong>in</strong><span>&nbsp;<span>array</span></span></span></span></span></span></span></span></span></span></span></span></span></span></li>
+				<li><span>&nbsp;<span>label<span>&nbsp;<span><strong>group by</strong><span>&nbsp;<span>group<span>&nbsp;<span><strong>for</strong><span>&nbsp;<span>value<span>&nbsp;<span><strong>in&nbsp;</strong>array</span></span></span></span></span></span></span></span></span></span></span></span></li>
+				<li><span>&nbsp;<span>label<span>&nbsp;<span><strong>disable when</strong><span>&nbsp;<span>disable<span>&nbsp;<span><strong>for</strong><span>&nbsp;<span>value&nbsp;<strong>in</strong><span>&nbsp;<span>array</span></span></span></span></span></span></span></span></span></span></span></span></li>
+				<li><span>&nbsp;<span>label<span>&nbsp;<span><strong>group by</strong><span>&nbsp;<span>group<span>&nbsp;<span><strong>for</strong><span>&nbsp;<span>value<span>&nbsp;<span><strong>in&nbsp;</strong>array<span>&nbsp;<span><strong>track by</strong><span>&nbsp;<span>trackexpr</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></li>
+				<li><span>&nbsp;<span>label<span>&nbsp;<span><strong>disable when</strong><span>&nbsp;<span>disable<span>&nbsp;<span><strong>for</strong><span>&nbsp;<span>value&nbsp;<strong>in</strong><span>&nbsp;<span>array<span>&nbsp;<span><strong>track by</strong><span>&nbsp;<span>trackexpr</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></li>
+				<li><span>&nbsp;<span>label<span>&nbsp;<span><strong>for</strong><span>&nbsp;<span>value<span>&nbsp;<span><strong>in</strong><span>&nbsp;<span>array<span>&nbsp;| orderBy:<span>orderexpr<span>&nbsp;<span><strong>track by</strong><span>&nbsp;<span>trackexpr<span>(for including a filter with&nbsp;<span>track by<span>)</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></li>
+			</ul>
+			<h2>对于对象：</h2>
+			<ul>
+				<li><span>&nbsp;<span>label<span>&nbsp;<span><strong>for (</strong>key<span>&nbsp;<span><strong>,</strong><span>&nbsp;<span>value<strong>) in</strong><span>&nbsp;<span>object</span></span></span></span></span></span></span></span></span></span></li>
+				<li><span>&nbsp;<span>select<span>&nbsp;<span><strong>as</strong><span>&nbsp;<span>label<span>&nbsp;<span><strong>for (</strong>key<span>&nbsp;<span><strong>,</strong>value<strong>) in</strong><span>&nbsp;<span>object</span></span></span></span></span></span></span></span></span></span></span></span></li>
+				<li><span>&nbsp;<span>label<span>&nbsp;<span><strong>group by</strong><span>&nbsp;<span>group<span>&nbsp;<span><strong>for (</strong>key<strong>,</strong>value<strong>) in</strong><span>&nbsp;<span>object</span></span></span></span></span></span></span></span></span></span></li>
+				<li><span>&nbsp;<span>label<span>&nbsp;<span><strong>disable when</strong><span>&nbsp;<span>disable&nbsp;<strong>for (</strong>key<strong>,</strong><span>&nbsp;<span>value<strong>) in</strong><span>&nbsp;<span>object</span></span></span></span></span></span></span></span></span></span></li>
+				<li><span>&nbsp;<span>select<span>&nbsp;<span><strong>as</strong><span>&nbsp;<span>label<span>&nbsp;<span><strong>group by</strong><span>&nbsp;<span>group<span>&nbsp;<span><strong>for(</strong>key<strong>,</strong><span>&nbsp;<span>value<strong>) in</strong><span>&nbsp;<span>object</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></li>
+				<li><span>&nbsp;<span>select<span>&nbsp;<span><strong>as</strong><span>&nbsp;<span>label<span>&nbsp;<span><strong>disable when</strong><span>&nbsp;<span>disable&nbsp;<strong>for</strong><span>&nbsp;<span><strong>(</strong>key<strong>,</strong><span>&nbsp;<span>value<strong>) in</strong><span>&nbsp;<span>object</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></li>
+			</ul>
+			<p>1.使用ng-options创建选择框</p>
+			<!--必须存在 ng-model 设置初始值 否则为空-->
+			请选择：<select ng-model='selected' ng-init='selected = names[1]' ng-options='x for x in names'></select>
+			<p>2.ng-options选择的是对象，ng-repeat选择的是字符串</p>
+			<select ng-model='sel1' ng-options='n.name for n in lits'></select>
+			<select ng-model='sel2'>
+				<option ng-repeat='x in lits' value="{{x.id}}">{{x.name}}</option>
+			</select>
+			<p>ng-options选择的是：{{sel1}} <br />
+				ng-repeat选择的是:{{sel2}}
+			</p>
+		</div>
+		<script>
+			var vm = angular.module('app',[]);
+			vm.controller('ctrl',function($scope){
+				$scope.names = ['xuefei','yanyan','fenfen','xiuxiu'];
+				$scope.lits = [{'id':1,'name':"hah"},{'id':2,'name':"jackson"}]
+			});
+		</script>
+	</body>
+</html>
