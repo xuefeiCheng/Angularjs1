@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>scope作用域</title>
+		<style>
+			div.box {
+				width: 80%;
+				margin: 50px auto;
+				background-color: rgb(246, 246, 246);
+				padding: 15px;
+			}
+		</style>
+		<script src="../js/angular.min.js"></script>
+	</head>
+	<body ng-app='app'>
+		<div class="box">
+			<p>1.如何使用scope：当在angularjs应用中创建控制器时，可以将scope对象作为参数传递</p>
+			<div ng-controller='ctrl1'>
+				<p>{{name}}</p>
+				<p>根作用域数据为：{{root}}</p>
+			</div>
+			<p>2.scope概述</p>
+			<p>
+				angularjs应用是由视图view，控制器controller，模型model组成；scope属于模型，用于在控制器和视图之间使用<br />
+				view：即html；model：即当前视图中可用的数据；controller：即javascript函数，用于添加修改属性。
+			</p>
+			<p>3.scope作用范围：作用于当前控制器内；rootscope作用于整个应用中，是根作用域</p>
+			<p>栗子1：</p>
+			<ul ng-controller='ctrl2'>
+				<li ng-repeat='(index,x) in names track by index'>
+					{{index}}:{{x}}
+				</li>
+				<li>根作用域数据为：{{root}}</li>
+			</ul>
+			<p>栗子2：根作用域：作用于整个应用中，可以作为各个controller之间的桥梁</p>
+			<p>根作用域数据为：{{root}}</p>
+			<p>根作用域数据也可以使用{{$root.variable}}的方式获取到：{{$root.root}}</p>
+			<p>栗子3：动态删除增加元素，界面自动刷新</p>
+			<div ng-controller='ctrl3'>
+				<ul>
+					<li ng-repeat = '(i,x) in listdata track by i'>{{i}}:{{x}}<button ng-click='del(i)'>del</button></li>
+				</ul>
+				<input type="text" ng-model='addname' placeholder="please input your addsomething" /><button ng-click='add(addname)'>add</button>
+			</div>
+		</div>
+		<script>
+			var vm = angular.module('app',[]);
+			vm.controller('ctrl1',function($scope,$rootScope){
+				//根作用域还未定义之前 获取不到
+				alert($rootScope.variable);
+				$rootScope.root  = 'rootData';//根作用域，适用于整个angularjs应用
+				$scope.name = 'xuefei';
+			}).controller('ctrl2',function($scope,$rootScope){
+				$rootScope.variable  = '{{$root.变量名}}';//根作用域
+				$scope.names=['xuefei','yanyan','xiuxiu','fenfen'];
+				//此时可以获取到了
+				alert($rootScope.variable);
+			}).controller('ctrl3',function($scope){
+				$scope.listdata = ['list1','list2','list3'];
+				$scope.del = function(i){
+					$scope.listdata.splice(i,1);//删除坐标为i的1个元素
+				}
+				$scope.add = function(name){
+					/*$scope.listdata.push($scope.addname);*/
+					$scope.listdata.push(name);
+					$scope.addname='';
+				}
+			});
+		</script>
+	</body>
+</html>
