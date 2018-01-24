@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>ng-switch指令</title>
+		<style>
+			div.box {
+				width: 80%;
+				margin: 50px auto;
+				background-color: rgb(246, 246, 246);
+				padding: 15px;
+			}
+		</style>
+		<script src="../js/angular.min.js"></script>
+	</head>
+	<body ng-app=''>
+		<div class="box">
+			<p>使用ng-switch响应选中</p>
+			<form>
+				选择一个选项:
+				<input type="radio" ng-model="myVar" value="dogs">Dogs
+				<input type="radio" ng-model="myVar" value="tuts">Tutorials
+				<input type="radio" ng-model="myVar" value="cars">Cars
+			</form>
+
+			<div ng-switch="myVar" ng-init='myVar = "dogs"'>
+				<div ng-switch-when="dogs">
+					<h1>Dogs</h1>
+					<p>Welcome to a world of dogs.</p>
+				</div>
+				<div ng-switch-when="tuts">
+					<h1>Tutorials</h1>
+					<p>Learn from examples.</p>
+				</div>
+				<div ng-switch-when="cars">
+					<h1>Cars</h1>
+					<p>Read about cars.</p>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
