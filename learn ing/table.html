@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>table</title>
+		<style>
+			div.box {
+				width: 80%;
+				margin: 50px auto;
+				background-color: rgb(246, 246, 246);
+				padding: 15px;
+			}
+			
+			table,
+			th,
+			td {
+				border: 1px solid grey;
+				border-collapse: collapse;
+				padding: 5px;
+			}
+			
+			table tr:nth-child(odd) {
+				background-color: #f1f1f1;
+			}
+			
+			table tr:nth-child(even) {
+				background-color: #ffffff;
+			}
+		</style>
+		<script src="../js/angular.min.js"></script>
+	</head>
+
+	<body ng-app='app'>
+		<div class="box" ng-controller='ctrl'>
+			<p>排序展示数据，数据表格样式</p>
+			<table>
+				<tr>
+					<th>Header1</th>
+					<th>Header2</th>
+					<th>Header2</th>
+					<th>Header2</th>
+				</tr>
+				<tr ng-repeat = 'l in lists | orderBy : "age"'>
+					<td>{{l.name}}</td>
+					<td>{{l.sex}}</td>
+					<td>{{l.age}}</td>
+					<td>{{l.msg}}</td>
+				</tr>
+			</table>
+			<p>$even $odd</p>
+			<table>
+				<tr>
+					<th>Header1</th>
+					<th>Header2</th>
+					<th>Header2</th>
+					<th>Header2</th>
+				</tr>
+				<tr ng-repeat = 'l in lists'>
+					<td  ng-if='$odd' style='background-color: #002A80;'>{{l.name}}</td>
+					<td  ng-if='$even'>{{l.name}}</td>
+					<td ng-if='$odd' style='background-color: #002A80;'>{{l.sex}}</td>
+					<td ng-if='$even'>{{l.sex}}</td>
+					<td ng-if='$odd' style='background-color: #002A80;'>{{l.age}}</td>
+					<td ng-if='$even'>{{l.age}}</td>
+					<td ng-if='$odd' style='background-color: #002A80;'>{{l.msg}}</td>
+					<td ng-if='$even'>{{l.msg}}</td>
+				</tr>
+				<tr ng-repeat = 'l in lists' style="{{$odd ? 'background-color: #002A80;':''}}">
+					<td>{{l.name}}</td>
+					<td>{{l.sex}}</td>
+					<td>{{l.age}}</td>
+					<td>{{l.msg}}</td>
+				</tr>
+			</table>
+			<p>$http声明：版本1.5+废弃success和error方法，使用then</p>
+			<p>
+				1.5-:{{text1}}
+			</p>
+			<p>
+				1.5+:{{text2}}
+			</p>
+		</div>
+		<script type="text/javascript">
+			var vm =angular.module('app',[])
+			vm.controller('ctrl',function($scope){
+				$scope.lists = [
+					{
+						'name':'xuefei',
+						'age':'22',
+						'sex':'girl',
+						"msg":'hahah'
+					},{
+						'name':'xiuxiu',
+						'age':'21',
+						'sex':'girl',
+						"msg":'hahah'
+					},{
+						'name':'yanyan',
+						'age':'24',
+						'sex':'girl',
+						"msg":'hahah'
+					},{
+						'name':'fenfen',
+						'age':'22',
+						'sex':'girl',
+						"msg":'hahah'
+					}
+				];
+				$scope.text1 = "$http({method:'post',url:url,params:{}}).success(function(data){})";
+				$scope.text2 = ' $http.get(url).then(function (result) {$scope.names = result.data.records;});';
+			});
+		</script>
+	</body>
+
+</html>
