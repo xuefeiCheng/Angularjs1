@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>输入验证</title>
+		<style>
+			div.box {
+				width: 80%;
+				margin: 50px auto;
+				background-color: rgb(246, 246, 246);
+				padding: 15px;
+			}
+		</style>
+		<script src="../js/angular.min.js"></script>
+	</head>
+
+	<body ng-app='app'>
+		<div class="box" ng-controller='ctrl'>
+			<p>客户端的输入验证不能确保用户输入的安全，需要在服务端再次验证。</p>
+			<p>输入验证一层，提交请求一层验证，后台再次验证。或者是输入验证不通过，按钮不激活，阻止用户提交请求</p>
+			<form name="myForm" novalidate>
+
+				<p>用户名:<br>
+					<input type="text" name="user" ng-model="user" required>
+					<span style="color:red" ng-show="myForm.user.$dirty && myForm.user.$invalid">
+  <span ng-show="myForm.user.$error.required">用户名是必须的。</span>
+					</span>
+				</p>
+
+				<p>邮箱:<br>
+					<input type="email" name="email" ng-model="email" required>
+					<span style="color:red" ng-show="myForm.email.$dirty && myForm.email.$invalid">
+  <span ng-show="myForm.email.$error.required">邮箱是必须的。</span>
+					<span ng-show="myForm.email.$error.email">非法的邮箱。</span>
+					</span>
+				</p>
+				<button ng-disabled="myForm.user.$dirty && myForm.user.$invalid ||myForm.email.$dirty && myForm.email.$invalid" ng-click='sub()'>提交</button>
+
+			</form>
+		</div>
+		<script type="text/javascript">
+			var app = angular.module('app', []);
+			app.controller('ctrl', function($scope) {
+				$scope.user = 'John Doe';
+				$scope.email = 'john.doe@gmail.com';
+				$scope.sub = function() {
+					alert('通过');
+				}
+			})
+		</script>
+	</body>
+
+</html>
