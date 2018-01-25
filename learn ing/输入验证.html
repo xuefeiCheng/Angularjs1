@@ -38,6 +38,17 @@
 				<button ng-disabled="myForm.user.$dirty && myForm.user.$invalid ||myForm.email.$dirty && myForm.email.$invalid" ng-click='sub()'>提交</button>
 
 			</form>
+			<p>属性值</p>
+			<table>
+			<tr>
+				<th>属性</th>
+				<th>描述</th>
+			</tr>
+			<tr ng-repeat='d in data'>
+				<td>{{d.key}}</td>
+				<td>{{d.value}}</td>
+			</tr>
+			</table>
 		</div>
 		<script type="text/javascript">
 			var app = angular.module('app', []);
@@ -47,6 +58,19 @@
 				$scope.sub = function() {
 					alert('通过');
 				}
+				$scope.data= [{
+					'key':"$dirty",
+					'value':'表单有填写记录'
+				},{
+					'key':"$valid",
+					'value':'字段内容合法'
+				},{
+					'key':"$invalid",
+					'value':'字段内容非法'
+				},{
+					'key':"$pristine",
+					'value':'表单没有填写记录'
+				}]
 			})
 		</script>
 	</body>
