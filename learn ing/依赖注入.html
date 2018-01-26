@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>依赖注入</title>
+		<style>
+			div.box {
+				width: 80%;
+				margin: 50px auto;
+				background-color: rgb(246, 246, 246);
+				padding: 15px;
+			}
+		</style>
+		<script src="../js/angular.min.js"></script>
+	</head>
+	<body ng-app='app'>
+		<div class="box" ng-controller="ctrl">
+			<p>依赖注入，类似预定义，抽象组件，需要时注入控制器controller、服务service等即可</p>
+			<p>angularjs提供很好的依赖注入机制。一下5个核心组件用来作为依赖注入：</p>
+			<ul>
+				<li>value：value是一个简单的js对象，用于向控制器传递值（配置阶段）</li>
+				<li>factory：是一个函数用于返回值。在service和controller需要时创建。通常使用factory函数计算或返回值。</li>
+				<li>service</li>
+				<li>provider：通过provider创建一个servive、factory等（配置阶段）。Provider中提供了一个factory方法get()，它用于返回value/service/factory</li>
+				<li>constant：（常量）用来配置阶段传递数值，注意这个常量在配置阶段是不可用的。</li>
+			</ul>
+			<p>以下是angularjs实例：</p>
+			<p>栗子1：value</p>
+			<p>加载预配置值：{{obj}}</p>
+			<p>栗子2：factory（factory返回一个对象，对象中含有一个函数用于计算两个值的乘积，注入到控制器中，用于计算平方）</p>
+			<p>输入一个数值：<input type="number" ng-model='num'/></p>
+			<button ng-click='square()'>点击计算x<sup>2</sup></button>
+			<p>结果是：{{result}}</p>
+			<p>栗子3：service（factory定义一个计算，service实现平方计算）</p>
+			<button ng-click='getres()'>再次计算x<sup>2</sup></button>
+			<p>结果是：{{res}}</p>
+			<p>栗子4：provider在配置时声明</p>
+			<button ng-click='getresl()'>再来一次x<sup>2</sup></button>
+			<p>结果是:{{resl}}</p>
+		</div>
+		<script type="text/javascript">
+			//依赖模块 例如动画 ngAnimate
+			var vm = angular.module('app',[]);
+			var obj = {
+				'name':'xuefeiCheng',
+				'age':'22',
+				'sex':'girl'
+			}
+			vm.constant('defaultObj',obj);
+			vm.value('defaultnum',5);
+			vm.config(function($provide) {
+	            $provide.provider('MathService1', function() {
+	            	//Provider 中提供了一个 factory 方法 get()，它用于返回 value/service/factory。
+	               this.$get = function() {
+	                  var factory = {};
+	                  
+	                  factory.multiply = function(a, b) {
+	                     return a * b;
+	                  }
+	                  return factory;
+	               };
+	            });
+         	});
+			vm.factory('MathService', function() {
+				var factory = {};
+				factory.multiply = function(a, b) {
+            		return a * b;
+            	}
+            	return factory;
+         	});
+         	vm.service('CalcService',function(MathService,MathService1){
+         		this.getRes = function(a){
+         			return MathService.multiply(a,a);
+         		};
+         		this.getResl = function(a){
+         			return MathService1.multiply(a,a);
+         		}
+         	});
+			vm.controller('ctrl',function($scope,defaultObj,defaultnum,MathService,CalcService){
+				$scope.obj = defaultObj;
+				$scope.num =defaultnum;
+				$scope.result = MathService.multiply($scope.num,$scope.num);
+	            $scope.square = function() {
+	                $scope.result = MathService.multiply($scope.num,$scope.num);
+	            }
+	            //预先计算一次 
+	            $scope.res = CalcService.getRes($scope.num);
+	            $scope.resl = CalcService.getResl($scope.num);
+	            $scope.getres = function(){
+	            	$scope.res = CalcService.getRes($scope.num);
+	            }
+	            $scope.getresl = function(){
+	            	$scope.resl = CalcService.getResl($scope.num);
+	            }
+			});
+		</script>
+	</body>
+</html>
